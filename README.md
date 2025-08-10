@@ -3,17 +3,17 @@ Small plugin that imports resources dynamically onto a node from its owner node.
 
 # Use case
 #### Common issue
-Let's say you have an `Enemy` node, that may include several different child nodes like `EnemyStatsComponent` or `EnemyCombatComponent`.
+Let's say you have an `Enemy` node, that may include several different child nodes like `EnemyStatsComponent`, `EnemyCombatComponent` or `EnemyFlightComponent`.
 Each of these components has exported properties that you might want to fine-tune for each variant of the same enemy.
 In a normal setting you would have to either:
-1. Make the children editable in the inspector.
-2. Declare proxy properties in the parent node that will be passed onto the child node.
-3. Make a different scene for each enemy variant even if only a couple of numbers will differ from one another.
+1. Make the children editable in the inspector — Which can lead to some overhead and is prone to errors.
+2. Declare proxy properties in the parent node that will be passed onto the child node — Which is not ideal in the case that you don't need every property available for every type of enemy (ie. non-flying enemies don't need to set up the `FlightComponent`).
+3. Make a different scene for each enemy variant — Even if you only have to tweak a couple of numbers!
 4. Or use resources and make a script for loading them.
 
 #### What if you could autoload resources dynamically for each type of component without extra coding?
 That's what this plugin is for!
-With this plugin you can set a single variable for all the resources in the parent node, and each component can call the plugin for auto-loading the resources they need whenever they need.
+With this plugin you can set a single variable for all the resources in the parent node, and each component can include a variable that holds the type of Resource they are expecting.
 The plugin covers the following situations:
 
 🛡 **Type safe**, so a node won't load the wrong resource type.
@@ -23,6 +23,8 @@ The plugin covers the following situations:
 🔗 **Resource inheritance**, so you can set the parent node to only allow resources that extend a certain type.
 
 🗂 **Multiple resource support**, so it doesn't matter if only one child node or many of them need to import resources, the parent node can hold as many resources of any type as needed.
+
+✏ **Automatic editor updates**, so the changes will be visible immediately. Especially useful for textures and collision shapes.
 
 
 
@@ -40,8 +42,8 @@ class_name EnemyStatsResource extends EnemyResource
 ```
 
 #### Inside the node that needs to import the resource properties:
-- Declare the properties that you want to be modified by the resource if they don't exist already in the base class.
-- In the `_ready` method, call `ResourceAutoLoader.load(self, resource_type)`, where `resource_type` is the type of the resource that you want to allow.
+- Declare the properties that you want to be modified by the Resource if they don't exist already in the base class.
+- Declare a property named `resource_type` that holds the Resource class that the node expects.
 
 ```gdscript
 class_name EnemyStatsComponent extends Node
@@ -49,8 +51,13 @@ class_name EnemyStatsComponent extends Node
 var health : int
 var speed : int
 
+var resource_type := StatsResource
+```
+
+Additionally, you can call `ResourceAutoLoader.load(self, resource_type)` in the `_ready` method, where `resource_type` is the type of the resource that you want to allow.
+```gdscript
 func _ready() -> void:
-	ResourceAutoLoader.load(self, EnemyStatsResource)
+	ResourceAutoLoader.load(self, resource_type)
 ```
 
 #### Inside the owner node:
