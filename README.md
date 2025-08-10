@@ -22,7 +22,7 @@ The plugin covers the following situations:
 
 🔗 **Resource inheritance**, so you can set the parent node to only allow resources that extend a certain type.
 
-🗂 **Multiple resource support**, so it doesn't matter if only one child node or many of them need to import resources, the parent node can hold as many resources as needed.
+🗂 **Multiple resource support**, so it doesn't matter if only one child node or many of them need to import resources, the parent node can hold as many resources of any type as needed.
 
 
 
