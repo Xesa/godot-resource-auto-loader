@@ -64,13 +64,6 @@ static func _get_resource_properties(resource : Resource) -> Array:
 		
 	for p in ClassDB.class_get_property_list("Script"):
 		base_properties.append(p.name)
-		
-	for p in ClassDB.class_get_property_list("Node"):
-		base_properties.append(p.name)
-		
-	for p in ClassDB.class_get_property_list("Object"):
-		base_properties.append(p.name)
-
 
 	# Adds the Resource properties that are not in the base properties
 	var custom_properties = []
