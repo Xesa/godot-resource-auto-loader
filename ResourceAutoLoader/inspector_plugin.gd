@@ -8,7 +8,7 @@ func _can_handle(object) -> bool:
 	if object is not Node or object is EditorProperty:
 		return false
 
-	var resources = object.get("resources")
+	var resources = object.get(ResourceAutoLoader.RESOURCE_ARRAY_NAME)
 	if resources == null or resources is not Array:
 		return clear_object()
 		
@@ -46,6 +46,9 @@ func clear_object() -> bool:
 ## Applies the changes made in the resources to every child node
 func apply_changes() -> void:
 	for child : Node in object.get_children():
-		var resource_type : Object = child.get("resource_type")
+		var resource_type : Object = child.get(ResourceAutoLoader.RESOURCE_TYPE_NAME)
 		if resource_type is Resource:
 			ResourceAutoLoader.load(child, resource_type)
+			
+			
+			
