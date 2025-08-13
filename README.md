@@ -70,3 +70,17 @@ class_name Enemy extends CharacterBody2D
 @export var resources : Array[EnemyResource]
 ```
 
+#### In the inspector:
+- Now you can create a Resource of the chosen type within the node properties and tweak the values, or import a Resource that you already have in the project.
+
+<p align="center"><img src="https://github.com/Xesa/godot-resource-auto-loader/blob/main/images/Screenshot_01.JPG"></p>
+<p align="center">Create or import a resource and tweak the values in the Owner node.</p>
+<p align="center"><img src="https://github.com/Xesa/godot-resource-auto-loader/blob/main/images/Screenshot_02.JPG"></p>
+<p align="center">Any changes that you apply will be replicated in the child node.</p>
+
+# FAQ
+#### ¿Can I change the name of the array and Resource type variables?
+Yes, in the `resource_auto_loader.gd` file there are two constants named `RESOURCE_ARRAY_NAME` for the resources array in the Owner node and `RESOURCE_TYPE_NAME` for the Resource type in the child node. You can change those values to whatever name you want to use for the variable names.
+
+#### ¿Can I modify this plugin?
+Yes, but be careful, if you don't know what you're doing you could end up replacing properties that you don't want to. Even the scrip attatched to the nodes is replaceable.
