@@ -87,7 +87,7 @@ Yes, in the `resource_auto_loader.gd` file there is a constant named `RESOURCE_A
 Yes, there's also a constant named `RESOURCE_TYPE_NAME` for the Resource type in the child node. 
 
 #### Do I have to add the `ResourceAutoLoader.load(self, resource_type)` line in every `_ready()` method?
-Not really, this plugin works on the editor, so when you run the game the properties  in the child nodes will actually be updated to whatever you indicated in the resources. However, one never knows and I didn't tested the plugin enough to know if there could be any possibility that the properties don't update automatically.
+Not really, this plugin works in the editor, so when you run the game the properties  in the child nodes will actually be updated to whatever you indicated in the resources. However, one never knows and I didn't tested the plugin enough to know if there could be any possibility that the properties don't update automatically.
 
 #### The child node properties are not updating automatically.
 Sometimes happens when you made a lot of changes in the structure of the scene or the scripts. If you close the scene and open it again it will automatically update instantly.
