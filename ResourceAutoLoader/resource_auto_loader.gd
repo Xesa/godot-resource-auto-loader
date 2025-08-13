@@ -2,6 +2,9 @@
 class_name ResourceAutoLoader extends EditorPlugin
 ## Allows loading resources dynamically. Use the [code]load(Node, Object)[/code] method.
 
+const RESOURCE_ARRAY_NAME := "resources"
+const RESOURCE_TYPE_NAME := "recource_type"
+
 var inspector_plugin
 
 
@@ -19,7 +22,7 @@ func _exit_tree():
 static func load(object : Node, resource_type : Object) -> void:
 	
 	# Finds the resources property and iterates in search of any instance of resource_type
-	var resources = object.owner.get("resources")
+	var resources = object.owner.get(RESOURCE_ARRAY_NAME)
 	var resource : Resource = null
 
 	for res : Resource in resources:
@@ -64,6 +67,7 @@ static func _get_resource_properties(resource : Resource) -> Array:
 		
 	for p in ClassDB.class_get_property_list("Script"):
 		base_properties.append(p.name)
+
 
 	# Adds the Resource properties that are not in the base properties
 	var custom_properties = []
