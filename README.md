@@ -2,7 +2,7 @@
 Small plugin that imports resources dynamically onto a node from its owner node. This is especially useful for composition patterns where you need to access the properties of a child node without enabling the 'Editable Children' option in the inspector.
 
 # Use case
-#### Common issue
+### Common issue
 Let's say you have an `Enemy` node, that may include several different child nodes like `EnemyStatsComponent`, `EnemyCombatComponent` or `EnemyFlightComponent`.
 Each of these components has exported properties that you might want to fine-tune for each variant of the same enemy.
 In a normal setting you would have to either:
@@ -11,10 +11,11 @@ In a normal setting you would have to either:
 3. Make a different scene for each enemy variant — Even if you only have to tweak a couple of numbers!
 4. Or use resources and make a script for loading them.
 
-#### What if you could autoload resources dynamically for each type of component without extra coding?
+### What if you could autoload resources dynamically for each type of component without extra coding?
 That's what this plugin is for!
-With this plugin you can set a single variable for all the resources in the parent node, and each component can include a variable that holds the type of Resource they are expecting.
-The plugin covers the following situations:
+With this plugin you can set a single variable (an array) for all the resources in the parent node, and each component can include a variable that holds the type of Resource they are expecting. Then the plugin will automatically load each resource to their corresponding component.
+
+### These are some of the features:
 
 🛡 **Type safe**, so a node won't load the wrong resource type.
 
@@ -29,7 +30,7 @@ The plugin covers the following situations:
 
 
 # How to use it
-#### Create a new Resource type:
+### Create a new Resource type:
 - To make a property detectable by the script, you must annotate them with `@export`.
 - Property names must be the same as in the node that will import them.
 - You can extend a type of Resource if you want to keep things organized.
@@ -41,7 +42,7 @@ class_name EnemyStatsResource extends EnemyResource
 @export speed : int
 ```
 
-#### Inside the node that needs to import the resource properties:
+### Inside the node that needs to import the resource properties:
 - Declare the properties that you want to be modified by the Resource if they don't exist already in the base class.
 - Declare a property named `resource_type` that holds the Resource class that the node expects.
 
@@ -60,7 +61,7 @@ func _ready() -> void:
 	ResourceAutoLoader.load(self, resource_type)
 ```
 
-#### Inside the owner node:
+### Inside the owner node:
 - Declare a property named `resources` of type `Array[Resource]`
 - The allowed resources will be of any type that extends the type of the Array, so you can declare an Array with a more concrete type of Resource, like `EnemyResource`.
 
@@ -70,7 +71,7 @@ class_name Enemy extends CharacterBody2D
 @export var resources : Array[EnemyResource]
 ```
 
-#### In the inspector:
+### In the inspector:
 - Now you can create a Resource of the chosen type within the node properties and tweak the values, or import a Resource that you already have in the project.
 
 <p align="center"><img src="https://github.com/Xesa/godot-resource-auto-loader/blob/main/images/Screenshot_01.JPG"></p>
