@@ -30,10 +30,11 @@ func _parse_begin(object : Object) -> void:
 
 					match resource_properties[name].type:
 						1: editor_property = ResourceAutoLoaderCheckbox.new(child, resource_properties[name])
-						2: editor_property = ResourceAutoLoaderInteger.new(child, resource_properties[name])
-						3: print("float")
-						4: print("string")
+						2: editor_property = ResourceAutoLoaderNumber.new(child, resource_properties[name])
+						3: editor_property = ResourceAutoLoaderNumber.new(child, resource_properties[name])
+						4: editor_property = ResourceAutoLoaderString.new(child, resource_properties[name])
 						5: editor_property = ResourceAutoLoaderVector2.new(child, resource_properties[name])
+						9: editor_property = ResourceAutoLoaderVector3.new(child, resource_properties[name])
 						24: editor_property = ResourceAutoLoaderResource.new(child, resource_properties[name])
 						_: continue
 						

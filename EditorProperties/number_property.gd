@@ -1,4 +1,4 @@
-class_name ResourceAutoLoaderInteger extends ResourceAutoLoaderBaseProperty
+class_name ResourceAutoLoaderNumber extends ResourceAutoLoaderBaseProperty
 
 
 func _init(object : Node, property : Dictionary):
