@@ -20,13 +20,9 @@ func _parse_begin(object : Object) -> void:
 
 			for name in resource_properties.keys():
 				var child_properties := ResourceAutoLoaderHelpers._get_object_properties(child)
-				print(resource_properties[name])
 				
 				if child_properties.has(name) and resource_properties[name].type == child_properties[name].type:
 					var editor_property : EditorProperty
-					
-					# TODO AÑADIR SOPORTE PARA TEXTURAS Y OTROS RECURSOS
-					
 
 					match resource_properties[name].type:
 						1: editor_property = ResourceAutoLoaderCheckbox.new(child, resource_properties[name])
