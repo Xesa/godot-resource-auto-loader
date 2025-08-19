@@ -30,17 +30,25 @@ class_name EnemyResource extends Resource
     @export_range(1,1000,1) var max_health : int
 ```
 
-### 2. Declare the properties and the resource type in the child node
-- Declare a variable named `resource_type` in the child node that holds a reference to the Resource you just created.
-- Declare the different properties you want to import from the resource. Note that the names must be exactly the same.
+### 2. Declare the properties you want to expose from the child node
 - You can also import properties that are already present in the base class, such as `position` for a `Node2D`, for example.
+- Note that the names must be exactly the same between the node and the resource.
+```gdscript
+class_name EnemyHealthComponent extends Node
+
+  @export_range(1,1000,1) var max_health : int
+```
+
+### 3. Declare the resource type in the child node
+- Declare a variable named `resource_type` in the child node that holds a reference to the Resource you just created.
+- Even if it appears blank in the inspector, is already holding the reference to the class so you don't have to pick anything in the inspector.
 
 ```gdscript
 class_name EnemyHealthComponent extends Node
 
   @export_range(1,1000,1) var max_health : int
 
-  var resource_type := EnemyResource.EnemyHealthResource
+  @export var resource_type := EnemyResource.EnemyHealthResource
 ```
 
 ### 3. Modify the child properties from the owner node
