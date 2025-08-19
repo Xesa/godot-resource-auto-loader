@@ -8,12 +8,7 @@ Let's say you have an `Enemy` class that may include several nodes such as `Enem
 - Set the children as editable in the inspector and search through all of them to change their values.
 
 #### But what if you could actually expose children properties without having to code anything?
-That's what this plugin is for! With minimal implementation, you can edit children properties within the owner node, as if it was just another property from that node. The plugin has the following features:
-
-🔍 Choose which properties will be exposed so you don't have to worry about bloating the inspector with things that you don't need.<br>
-🧩 Add or remove nodes in the scene freely, the inspector will expose the properties that are relevant for the given combination of components.<br>
-✨ Changes are applied immediately in the inspector, so every property will be up to date when you launch the game.<br>
-🚩 Support for hints, so you can limit or specify the behaviour of the inspector for each property.
+That's what this plugin is for! With minimal implementation, you choose which properties expose and edit them in the owner node, as if it was just another property from that node.
 
 # How to use it
 For clarity sake, let's say you have the following structure:
