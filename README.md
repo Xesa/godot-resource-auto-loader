@@ -51,7 +51,7 @@ class_name EnemyHealthComponent extends Node
   @export var resource_type := EnemyResource.EnemyHealthResource
 ```
 
-### 3. Modify the child properties from the owner node
+### 4. Modify the child properties from the owner node
 - Now you can see the exported properties in the owner node and modify them without having to search each individual node in the scene tree.
 
 # FAQ
