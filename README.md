@@ -61,3 +61,5 @@ Yes, in the plugin files you can edit `resource_auto_loader.gd` and change the v
 So far you can work with _booleans_, _integers_, _floats_, _strings_, _Vector2_, _Vector3_ and resource paths. I've been trying to allow node paths and other complex types but it seems that there's not an easy way to replicate Godot's UI for that kind of behaviour.
 #### What are the supported hints?
 For now, only `@export_range` is supported. There aren't many other useful hints for the type of properties currently supported. If I see there's something else that could be interesting I will add it.
+#### Will you expand the plugin or add more supported types
+Maybe, if I find a real need for any of my projects I will surely do it and upload the changes to this repository.
