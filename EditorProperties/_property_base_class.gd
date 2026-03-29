@@ -32,7 +32,8 @@ func _on_edited(arg1 : Variant = null, arg2 : Variant = null, arg3 : Variant = n
 	update_object_property()
 		
 
-## Updates the value of the control with the given property from [code]object[/code].
+## Updates the value of the PropertyEditor with the given property from [code]object[/code].
+## If custom code is needed for a specific PropertyEditor, you can overwrite this method.
 func update_control_property() -> void:
 	control.set(value_path, get_current_value())
 	
