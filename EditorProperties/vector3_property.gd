@@ -6,6 +6,14 @@ func _init(object : Node, property : Dictionary):
 	super(object, property, vector, "vector", "value_changed")
 
 
+func update_control_property() -> void:
+	var value = get_current_value()
+	control.vector = value
+	control.spin_x.value = value.x
+	control.spin_y.value = value.y
+	control.spin_z.value = value.z
+
+
 class Vector3Control extends EditorProperty:
 	
 	signal value_changed(new_value : Vector3)
@@ -14,14 +22,9 @@ class Vector3Control extends EditorProperty:
 	var spin_y : SpinBox
 	var spin_z : SpinBox
 	
-	var _vector : Vector3
-	var vector : Vector3:
-		set(value): set_vector(value)
-		get: return _vector
-		
-	var internal_change := false
-		
+	var vector : Vector3
 	
+
 	func _init():
 		
 		# Create spinboxes
@@ -43,7 +46,6 @@ class Vector3Control extends EditorProperty:
 		
 		# Give a value to vector if it's null
 		if vector == null:
-			internal_change = true
 			vector = Vector3(spin_x.value, spin_y.value, spin_z.value)
 		
 		# Connect signals
@@ -84,20 +86,6 @@ class Vector3Control extends EditorProperty:
 		
 		
 	func _on_spin_changed(value):
-		internal_change = true
 		vector = Vector3(spin_x.value, spin_y.value, spin_z.value)
 		value_changed.emit(vector)
 		emit_changed(get_edited_property(), vector)
-		
-		
-	func set_vector(value):
-		# Update the value of the spinboxes to match the real value of vector
-		# This will only happen if it's an external change to avoid redundance
-		if !internal_change:
-			spin_x.value = value.x
-			spin_y.value = value.y
-			spin_z.value = value.z
-			internal_change = false
-		_vector = value
-		
-		
