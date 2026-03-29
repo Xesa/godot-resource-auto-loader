@@ -2,23 +2,25 @@ class_name ResourceAutoLoaderVector2 extends ResourceAutoLoaderBaseProperty
 
 
 func _init(object : Node, property : Dictionary):
-	var vector = Vector3Control.new()
+	var vector = Vector2Control.new()
 	super(object, property, vector, "vector", "value_changed")
 
 
-class Vector3Control extends EditorProperty:
+func update_control_property() -> void:
+	var value = get_current_value()
+	control.vector = value
+	control.spin_x.value = value.x
+	control.spin_y.value = value.y
+
+
+class Vector2Control extends EditorProperty:
 	
 	signal value_changed(new_value : Vector2)
 	
 	var spin_x : SpinBox
 	var spin_y : SpinBox
 	
-	var _vector : Vector2
-	var vector : Vector2:
-		set(value): set_vector(value)
-		get: return _vector
-		
-	var internal_change := false
+	var vector : Vector2
 		
 	
 	func _init():
@@ -37,7 +39,6 @@ class Vector3Control extends EditorProperty:
 		
 		# Give a value to vector if it's null
 		if vector == null:
-			internal_change = true
 			vector = Vector2(spin_x.value, spin_y.value)
 		
 		# Connect signals
@@ -71,19 +72,6 @@ class Vector3Control extends EditorProperty:
 		
 		
 	func _on_spin_changed(value):
-		internal_change = true
 		vector = Vector2(spin_x.value, spin_y.value)
 		value_changed.emit(vector)
 		emit_changed(get_edited_property(), vector)
-		
-		
-	func set_vector(value):
-		# Update the value of the spinboxes to match the real value of vector
-		# This will only happen if it's an external change to avoid redundance
-		if !internal_change:
-			spin_x.value = value.x
-			spin_y.value = value.y
-			internal_change = false
-		_vector = value
-		
-		
