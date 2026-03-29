@@ -18,47 +18,58 @@ Enemy # This is the owner node, where we want to be able to edit children proper
 └ AttackComponent
 └ ...
 ```
-### 1. Create a Resource
+
+### 1. Declare the properties you want to expose from the child node
 - Use the `@export` annotation to make the properties visible for the plugin.
 - You can use `@export_range` for floats and integers.
-- You can create nested classes for keeping things organized.
-
 ```gdscript
-class_name EnemyResource extends Resource
+class_name EnemyHealthComponent extends Node
 
-  class EnemyHealthResource extends EnemyResource:
-    @export_range(1,1000,1) var max_health : int
+  @export_range(1,1000,1) var max_health : int
 ```
 
-### 2. Declare the properties you want to expose from the child node
-- You can also import properties that are already present in the base class, such as `position` for a `Node2D`, for example.
+### 2. Define the exportable resource
+- Declare a variable named `resource_type` with the `@export` annotation.
+- Define the type and the value as `:= ExportableResource`.
+```gdscript
+class_name EnemyHealthComponent extends Node
+
+  @export_range(1,1000,1) var max_health : int
+
+  @export var resource_type := ExportableResource
+```
+
+### 3. Create a subclass that extends Resource
+- This class must include the same properties that you want to export from the main class.
 - Note that the names must be exactly the same between the node and the resource.
-```gdscript
-class_name EnemyHealthComponent extends Node
-
-  @export_range(1,1000,1) var max_health : int
-```
-
-### 3. Declare the resource type in the child node
-- Declare a variable named `resource_type` in the child node that holds a reference to the Resource you just created.
-- Even if it appears blank in the inspector, is already holding the reference to the class so you don't have to pick anything in the inspector.
-
+- You can also export properties that are already present in the base class, such as `position` for a `Node2D`, for example.
 ```gdscript
 class_name EnemyHealthComponent extends Node
 
   @export_range(1,1000,1) var max_health : int
 
-  @export var resource_type := EnemyResource.EnemyHealthResource
+  @export var resource_type := ExportableResource
+  class_name ExportableResource extends Resource
+      @export_range(1,1000,1) var max_health : int
 ```
 
 ### 4. Modify the child properties from the owner node
 - Now you can see the exported properties in the owner node and modify them without having to search each individual node in the scene tree.
 
 # FAQ
+#### The `resource_type` variable appears in the inspector as an empty node.
+Yes, that's normal. You should leave it as is.
 #### Can I name the `resource_type` variable differently?
-Yes, in the plugin files you can edit `resource_auto_loader.gd` and change the value of the constant named `RESOURCE_TYPE_NAME`.
+Yes, in the plugin configuration (`plugin.cfg`) you can modify a variable named `resource_type_name` to whatever that fits your needs.
+#### Can I name the `ExportableResource` subclass differently?
+Yes, just make sure that you also change the reference in the `resource_type` variable. For example, if you name the subclass as `EnemyHealthResource` you should refer to it as:
+```gdscript
+@export var resource_type := EnemyHealthResource
+```
+#### Is it necessary that the `ExportableResource` class is a subclass of the class that we want to expose?
+No, you can define the exportable resource as a class in any other script. Just make sure to refer to it correctly.
 #### What are the supported types of properties?
-So far you can work with _booleans_, _integers_, _floats_, _strings_, _Vector2_, _Vector3_ and resource paths. I've been trying to allow node paths and other complex types but it seems that there's not an easy way to replicate Godot's UI for that kind of behaviour.
+So far you can work with _booleans_, _integers_, _floats_, _strings_, _Vector2_, _Vector3_, resource paths and node paths. I've been trying to allow other complex types but it seems that there's not an easy way to replicate Godot's UI for that kind of behaviour.
 #### What are the supported hints?
 For now, only `@export_range` is supported. There aren't many other useful hints for the type of properties currently supported. If I see there's something else that could be interesting I will add it.
 #### Will you expand the plugin or add more supported types
