@@ -1,4 +1,6 @@
-class_name ResourceAutoLoaderNodepath extends ResourceAutoLoaderBaseProperty
+extends "_property_base_class.gd"
+
+const HELPERS := preload("../InspectorPlugin/helpers.gd")
 
 
 func _init(object : Node, property : Dictionary):
@@ -27,8 +29,7 @@ class NodePathControl extends EditorProperty:
 
 		# Sets the property type string
 		var property_name = property["name"]
-		var object_properties := ResourceAutoLoaderHelpers._get_object_properties(object)
-		var object_property = object_properties[property_name]
+		var object_property := HELPERS.get_object_property(object, property_name)
 
 		var hint_string = object_property.get("hint_string")
 
@@ -86,3 +87,5 @@ class NodePathControl extends EditorProperty:
 			select_button.text = "Select node"
 			select_button.remove_theme_color_override("font-color")
 			clean_button.disabled = true
+
+	
