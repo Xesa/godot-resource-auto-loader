@@ -1,4 +1,4 @@
-class_name ResourceAutoLoaderResource extends ResourceAutoLoaderBaseProperty
+extends "_property_base_class.gd"
 
 
 func _init(object : Node, property : Dictionary):
