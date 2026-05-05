@@ -1,5 +1,5 @@
 @tool
-class_name ResourceAutoLoaderBaseProperty extends EditorProperty
+extends EditorProperty
 
 var object : Node
 var control : Control

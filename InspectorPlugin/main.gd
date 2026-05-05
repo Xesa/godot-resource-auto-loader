@@ -1,11 +1,15 @@
 @tool
-class_name ResourceAutoLoader extends EditorPlugin
+class_name ExposeThemProperties extends EditorPlugin
 ## Allows loading resources dynamically. Use the [code]load(Node, Object)[/code] method.
 
-static var RESOURCE_TYPE_NAME := "resource_type"
 static var DEBUG := false
+static var IMPORTER_NODE_FLAG := "is_importer_node"
 
-var inspector_plugin
+const EXPORTABLE_PROPERTY_HINT := "exportable_property"
+const EXPORTABLE_NODEPATH_HINT := EXPORTABLE_PROPERTY_HINT + ":nodepath"
+
+var inspector_plugin : EditorInspectorPlugin
+
 
 func _enter_tree():
 	var err = check_config_file()
@@ -21,12 +25,13 @@ func _exit_tree():
 ## Checks and loads the plugin configuration file.
 func check_config_file() -> int:
 	var config := ConfigFile.new()
-	var err := config.load("res://addons/ResourceAutoLoader/plugin.cfg")
+	var err := config.load("res://addons/xesa/ExposeThemProperties/plugin.cfg")
 
 	if err == OK:
-		RESOURCE_TYPE_NAME = config.get_value("plugin", "resource_type_name")
 		DEBUG = config.get_value("plugin", "debug")
+		IMPORTER_NODE_FLAG = config.get_value("plugin", "importer_node_flag")
+
 	else:
-		printerr("Resource Auto Loader: Error loading .cfg file. Please, reinstall the plugin")
+		printerr("Expose Them Properties: Error loading .cfg file (err: " + str(err)+ "). Please, reinstall the plugin.")
 
 	return err

@@ -1,5 +1,5 @@
 @tool
-class_name ResourceAutoLoaderString extends ResourceAutoLoaderBaseProperty
+extends "_property_base_class.gd"
 
 
 func _init(object : Node, property : Dictionary):
