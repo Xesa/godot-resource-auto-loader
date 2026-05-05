@@ -1,49 +1,42 @@
 @tool
-class_name ResourceAutoLoaderHelpers extends EditorScript
+extends EditorScript
+
+const MAIN := preload("main.gd")
 
 
-## Helper method for extracting only the names of the properties after using the [code]Object.get_property_list()[/code] method.
-static func _get_object_properties(object : Node) -> Dictionary:
-	
-	var properties := {}
-	
-	for p in object.get_property_list():
-		properties[p.name] = p
-		
+static func scan_children_nodes(node : Node, properties : Array[Dictionary] = []) -> Array[Dictionary]:
+
+	var node_properties := get_exportable_properties(node)
+
+	if node_properties["properties"].size() > 0:
+		properties.append(node_properties)
+
+	for child in node.get_children():
+		scan_children_nodes(child, properties)
+
 	return properties
-	
-	
-## Helper method for extracting the properties from the Resource ignoring properties that shouldn't be replaced in the object
-static func _get_resource_type_properties(resource : Resource) -> Dictionary:
-	
-	# Adds any base property to a list
-	var base_properties = [
-		"RefCounted", "Resource", "resource_local_to_scene", "resource_path",
-		"resource_name", "resource_scene_unique_id", "script", "metadata/_custom_type_script"
-	]
-
-	for p in ClassDB.class_get_property_list("Resource"):
-		base_properties.append(p.name)
-		
-	for p in ClassDB.class_get_property_list("Script"):
-		base_properties.append(p.name)
 
 
-	# Adds the Resource properties that are not in the base properties
-	var custom_properties := {}
-	for p in resource.get_property_list():
-		if p.usage & PROPERTY_USAGE_EDITOR == 0:
-			continue
-		if p.name.ends_with(".gd"):
-			continue
-		if p.name in base_properties:
-			continue
-		
-		custom_properties[p.name] = p
-			
-	return custom_properties
-	
-	
+static func get_exportable_properties(node : Node) -> Dictionary:
+
+	var node_properties := {"node" : node, "node_name": node.name, "properties" : {}}
+
+	for p in node.get_property_list():
+		if p.has("hint_string") and p.hint_string.contains(MAIN.EXPORTABLE_PROPERTY_HINT):
+			node_properties["properties"][p.name] = p
+
+	return node_properties
+
+
+static func get_object_property(object : Node, property_name : String) -> Dictionary:
+
+	for p in object.get_property_list():
+		if p.name == property_name:
+			return p
+
+	return {}
+
+
 static func create_group_label(editor : EditorInspectorPlugin, name : String) -> void:
 	var label = Label.new()
 	label.text = name
@@ -69,8 +62,7 @@ static func update_object_property(editor : EditorProperty, object : Object, val
 	object.set(editor.get_edited_property(), value)
 	
 	editor.emit_changed(editor.get_edited_property(), value)
-	
-	
+
 
 static func get_hint_or_null(hint : String, index : int) -> Variant:
 	
