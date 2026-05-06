@@ -23,7 +23,7 @@ func _can_handle(object: Object) -> bool:
 func _parse_begin(object : Object) -> void:
 
 	# Returns if the selected node is not an importer
-	if HELPERS.get_object_property(object, MAIN.IMPORTER_NODE_FLAG).size() == 0 and !object.has_meta(MAIN.IMPORTER_NODE_FLAG):
+	if !object.get(MAIN.IMPORTER_NODE_FLAG) and !object.has_meta(MAIN.IMPORTER_NODE_FLAG):
 		return
 
 	# Iterates every child and finds their exportable properties
