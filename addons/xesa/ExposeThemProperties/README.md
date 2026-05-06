@@ -44,14 +44,14 @@ class_name HealthComponent extends Node
 
 ## 2. Flag the owner node as an importer
 You can flag the importer nodes in two different ways:
-- By creating a variable in that node's script called `is_importer_node`.
+- By creating a constant in that node's script called `is_importer_node`.
 - By adding a metadata key called `is_importer_node` in that node from the editor.
 
 In both cases, it is recommeded that the variable/key is a boolean set to `true`.
 ```gdscript
 class_name Character extends Node
 
-  var is_importer_node := true
+  const is_importer_node := true
 ```
 # FAQ
 #### Will this work if the node that has the properties is not a direct child of the node that exposes them?
